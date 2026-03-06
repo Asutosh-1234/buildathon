@@ -2,29 +2,37 @@ import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema(
 {
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
+  auth0Id: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true
+  },
 
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true,
-        trim: true,
-        index: true
-    },
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
 
-    avatar: {
-        type: String,
-        default: "https://placehold.co/200x200"
-    }
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
+    index: true
+  },
+
+  avatar: {
+    type: String,
+    default: "https://placehold.co/200x200"
+  }
 
 },
 {
-    timestamps: true
-});
+  timestamps: true
+}
+);
 
 export const User = mongoose.model("User", userSchema);
