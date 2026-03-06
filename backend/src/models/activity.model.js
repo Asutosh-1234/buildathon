@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { ACTIVITY_STATUS } from "../utils/enum.js";
 
 const activitySchema = new Schema({
   tripId: {
@@ -52,8 +53,8 @@ const activitySchema = new Schema({
 
   status: {
     type: String,
-    enum: ["planned", "completed", "cancelled"],
-    default: "planned"
+    enum: Object.values(ACTIVITY_STATUS),
+    default: ACTIVITY_STATUS.UPCOMING
   },
 
   notes: {

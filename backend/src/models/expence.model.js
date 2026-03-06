@@ -1,4 +1,5 @@
 import mongoose, {Schema} from "mongoose";
+import { EXPENSE_TYPES } from "../utils/enum.js";
 
 const expenceSchema = new mongoose.Schema({
     userId: {
@@ -29,8 +30,8 @@ const expenceSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true,
-        trim: true
+        enum: Object.values(EXPENSE_TYPES),
+        default: EXPENSE_TYPES.OTHER
     },
     createdAt: {
         type: Date,

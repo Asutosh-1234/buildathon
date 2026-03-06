@@ -1,4 +1,5 @@
 import mongoose, {Schema} from "mongoose";
+import { TRIP_MEMBER_ROLES } from "../utils/enum.js";
 
 const tripMemberSchema = new mongoose.Schema({
     tripId: {
@@ -10,18 +11,15 @@ const tripMemberSchema = new mongoose.Schema({
         userId: Schema.Types.ObjectId,
         email: String,
         name: String,
-        role: String,
+        role: {
+            type: String,
+            default: TRIP_MEMBER_ROLES.VIEWER,
+            enum: TRIP_MEMBER_ROLES,
+        },
         joinedAt: Date
     }],
 });
 
-tripMemberSchema.pre("save", function(next) {
-    for (let i = 0; i < this.members.length; i++) {
-        if (!this.members[i].joinedAt) {
-            this.members[i].joinedAt = new Date();
-        }
-    }
-    next();
-});
+
 
 export const TripMember = mongoose.model("TripMember", tripMemberSchema);

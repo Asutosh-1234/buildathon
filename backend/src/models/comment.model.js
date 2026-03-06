@@ -1,53 +1,43 @@
-/* Comment {
-  _id (PK)
-  tripId ObjectId (ref: Trip, indexed)
-  dayId (FK)
-  activityId (FK)
-  userId (FK)
-  content string
-  createdAt date
-} */
+import mongoose, { Schema } from "mongoose";
 
-import mongoose, {Schema} from "mongoose";
+const commentSchema = new Schema(
+{
+  tripId: {
+    type: Schema.Types.ObjectId,
+    ref: "Trip",
+    required: true,
+    index: true
+  },
 
-const commentSchema = new mongoose.Schema({
-    tripId: {
-        type: Schema.Types.ObjectId,
-        ref: "Trip",
-        required: true
-    },
-    dayId: {
-        type: Schema.Types.ObjectId,
-        ref: "Day",
-        required: true
-    },
-    activityId: {
-        type: Schema.Types.ObjectId,
-        ref: "Activity",
-        required: true
-    },
-    content: {
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-            required: true
-        },
-        text: {
-            type: String,
-            required: true
-        },
-        timestamp: {
-            type: Date,
-            default: Date.now
-        }
-    },
+  dayId: {
+    type: Schema.Types.ObjectId,
+    ref: "TripDay",
+    required: true
+  },
+
+  activityId: {
+    type: Schema.Types.ObjectId,
+    ref: "Activity",
+    required: true
+  },
+
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
+
+  content: {
+    type: String,
+    required: true,
+    trim: true
+  }
+
+},
+{
+  timestamps: true
 });
 
-commentSchema.pre("save", function(next) {
-    if (this.isNew) {
-        this.content.timestamp = Date.now();
-    }
-    next();
-});
+commentSchema.index({ activityId: 1, createdAt: 1 });
 
 export const Comment = mongoose.model("Comment", commentSchema);

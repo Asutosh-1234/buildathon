@@ -1,48 +1,39 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const tripSchema = new mongoose.Schema({
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
-    title: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    startDate: {
-        type: Date,
-        required: true
-    },
-    endDate: {
-        type: Date,
-        required: true
-    },
-    days: [{
-        type: Schema.Types.ObjectId,
-        ref: "TripDay"
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
-    }
-});
+const tripSchema = new Schema(
+{
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    index: true
+  },
 
-tripSchema.pre("save", function(next) {
-    if (this.isNew) {
-        this.createdAt = Date.now();
-    }
-    this.updatedAt = Date.now();
-    next();
-});
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
 
+  description: {
+    type: String,
+    default: ""
+  },
+
+  startDate: {
+    type: Date,
+    required: true
+  },
+
+  endDate: {
+    type: Date,
+    required: true
+  }
+
+},
+{ timestamps: true }
+);
+
+tripSchema.index({ createdBy: 1, startDate: 1 });
 
 export const Trip = mongoose.model("Trip", tripSchema);

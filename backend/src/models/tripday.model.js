@@ -1,25 +1,28 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const tripDaySchema = new mongoose.Schema({
-    tripId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Trip",
-        required: true
-    },
-    day: {
-        type: Number,
-        required: true
-    },
-    activities: [{
-        type: Schema.Types.ObjectId,
-        ref: "Activity"
-    }],
-    order:{
-        type: Number,
-        default: 0
-    },
-});
+const tripDaySchema = new Schema(
+{
+  tripId: {
+    type: Schema.Types.ObjectId,
+    ref: "Trip",
+    required: true,
+    index: true
+  },
 
+  date: {
+    type: Date,
+    required: true
+  },
 
+  order: {
+    type: Number,
+    default: 0
+  }
+
+},
+{ timestamps: true }
+);
+
+tripDaySchema.index({ tripId: 1, order: 1 });
 
 export const TripDay = mongoose.model("TripDay", tripDaySchema);

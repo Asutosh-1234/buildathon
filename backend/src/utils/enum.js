@@ -26,4 +26,10 @@ export const EXPENSE_TYPES = {
 
 export const AvilableExpenseTypes = Object.values(EXPENSE_TYPES);
 
-export { TRIP_MEMBER_ROLES, ACTIVITY_TYPES, EXPENSE_TYPES, AvilableRoles, AvilableActivityTypes, AvilableExpenseTypes };
+const ACTIVITY_STATUS = {
+    UPCOMING: "upcoming",
+    IN_PROGRESS: "in_progress",
+    COMPLETED: "completed"
+};
+
+export { TRIP_MEMBER_ROLES, ACTIVITY_TYPES, EXPENSE_TYPES, AvilableRoles, AvilableActivityTypes, AvilableExpenseTypes, ACTIVITY_STATUS };
